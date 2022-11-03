@@ -34,3 +34,7 @@ into the standard version of the code available online.
 ## References:
 1. Streets, D. G., Horowitz, H. M., Lu, Z., Levin, L., Thackray, C. P., & Sunderland, E. M. (2019). Global and regional trends in mercury emissions and concentrations, 2010–2015. Atmospheric Environment, 201(December 2018), 417–427. https://doi.org/10.1016/j.atmosenv.2018.12.031
 2. Zhang, Y., Jacob, D. J., Horowitz, H. M., Chen, L., Amos, H. M., Krabbenhoft, D. P., et al. (2016). Observed decrease in atmospheric mercury explained by global decline in anthropogenic emissions. Proceedings of the National Academy of Sciences of the United States of America, 113(3), 526–531. https://doi.org/10.1073/pnas.1516312113
+
+## Workflow:
+`python distribute_emissions.py`
+`python check_files.py`
