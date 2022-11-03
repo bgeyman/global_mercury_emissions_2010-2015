@@ -99,6 +99,9 @@ area = do_grid(lat_resolution=1, lon_resolution=1)
 area = make_ds(var_name='area', data=area, lat=WHET.lat.values, lon=WHET.lon.values, attrs={'units':'m2','long_name':'area',})
 WHET = xr.merge((WHET, area))
 
+#ds_out = ds_out.assign_coords({'area':WHET['area']})
+WHET[['area']].to_netcdf('./output/area_1x1.nc')
+
 first=True
 for year in [2000, 2010, 2011, 2012, 2013, 2014, 2015]:
     
@@ -132,8 +135,7 @@ for year in [2000, 2010, 2011, 2012, 2013, 2014, 2015]:
         ds_tmp['Hg2'] += masked_emission*sf_Hg2
         ds_tmp['HgP'] += masked_emission*sf_HgP   
         
-    year_datetime = get_days_since_epoch(year=year)
-    ds_tmp = ds_tmp.expand_dims({'time':[year_datetime]})
+    ds_tmp = ds_tmp.expand_dims({'time':[year]})
     
     if first==True:
         ds_out = ds_tmp.copy()
@@ -142,10 +144,26 @@ for year in [2000, 2010, 2011, 2012, 2013, 2014, 2015]:
     
     first=False
 
-ds_out = ds_out.assign_coords({'area':WHET['area']})
-
-for v in ['lat','lon','Hg0','Hg2','HgP']:
-    ds_out[v] = ds_out[v].assign_attrs(WHET[v].attrs)
+# now fill emissions between 2000 and 2010 by linear interpolation
+for year in np.arange(2001, 2010):
+    df_tmp = xr.Dataset()
+    for species in ['Hg0','Hg2','HgP']:
+        span = (2010-2000)
+        f_lo = 1-((year-2000)/span)
+        f_hi = 1-(np.abs(year-2010)/span)
+        assert (f_lo + f_hi) == 1       
+        
+        df_tmp[species] = (f_lo*ds_out[species].sel(time=2000))+(f_hi*ds_out[species].sel(time=2010))
+        
+    df_tmp = df_tmp.expand_dims({'time':[year]})
+    ds_out = xr.merge((ds_out, df_tmp))
+    
+datetime_list = []
+for year in ds_out.time.values:
+    year_datetime = get_days_since_epoch(year=year)
+    datetime_list.append(year_datetime)
+    
+ds_out['time'] = datetime_list
     
 # assign time attributes
 ds_out['time'] = ds_out['time'].assign_attrs({'units':'days since 1970-01-01 00:00:00',
@@ -161,6 +179,15 @@ ds_out = ds_out.assign_attrs({'title':f'2000 - 2015 Global Anthropogenic Mercury
                              'source script': 'distribute_emissions.py',
                              'full_reference':'D.G. Streets, H.M. Horowitz, Z. Lu, L. Levin, C.P. Thackray, E.M. Sunderland. 2019. Global and regional trends in mercury emissions and concentrations, 2010-2015. Atmospheric Environment. 201: 417-427.',
                               'description':''})
+
+for v in ['lat','lon','Hg0','Hg2','HgP']:
+    ds_out[v] = ds_out[v].assign_attrs(WHET[v].attrs)
+    
+ds_out['lat'] = ds_out['lat'].assign_attrs({'units':'degrees_north','long_name':'latitude','axis':'Y'})
+ds_out['lon'] = ds_out['lon'].assign_attrs({'units':'degrees_east','long_name':'longitude','axis':'X'}) 
+ds_out['Hg0'] = ds_out['Hg0'].assign_attrs({'units':'kg m-2 s-1', 'long_name':'gaseous elemental mercury'})
+ds_out['Hg2'] = ds_out['Hg2'].assign_attrs({'units':'kg m-2 s-1', 'long_name':'gaseous oxidized mercury'})
+ds_out['HgP'] = ds_out['HgP'].assign_attrs({'units':'kg m-2 s-1', 'long_name':'particulate mercury'})
 
 compression_dict = {}
 for v in ds_out.data_vars: # compression args for data vars
