@@ -6,7 +6,7 @@ Scripts for gridding global anthropogenic mercury emissions (2000-2015) from Str
 
 <img width="500" alt="example_cbar" src=https://user-images.githubusercontent.com/56602673/199347607-b4f3bdab-294f-4edd-ac9e-5d776ce52410.png>
 
-*Last update*: 1 November 2022
+*Last update*: 3 November 2022
 
 Questions or comments? Contact:
   Ben Geyman,
