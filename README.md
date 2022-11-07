@@ -2,7 +2,7 @@
 
 ## Description 
 
-Scripts for gridding global anthropogenic mercury emissions (2000-2015) from Streets et al. (2019) inventory. Emission estimates for 17 world regions (Streets et al., 2019) are distributed onto a $1\degree$ x $1\degree$ horizontal grid based on the inter-regional pattern from the WHET inventory (Zhang et al., 2016).
+Scripts for gridding global anthropogenic mercury emissions (2000-2015) from Streets et al. (2019) inventory. Emission estimates for 17 world regions (Streets et al., 2019) are distributed onto a $1\degree$ x $1\degree$ horizontal grid based on the inter-regional pattern from the WHET inventory (Zhang et al., 2016). The gridded output is archived in NetCDF format on the Harvard Dataverse (https://doi.org/10.7910/DVN/EHDFOH). 
 
 <img width="500" alt="example_cbar" src=https://user-images.githubusercontent.com/56602673/199347607-b4f3bdab-294f-4edd-ac9e-5d776ce52410.png>
 
