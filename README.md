@@ -1,4 +1,4 @@
-# `global_mercury_emissions_2010-2015`
+# `global mercury emissions 2010-2015`
 
 ## Description 
 
