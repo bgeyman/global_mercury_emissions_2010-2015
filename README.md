@@ -6,6 +6,10 @@ Scripts for gridding global anthropogenic mercury emissions (2000-2015) from Str
 
 <img width="500" alt="example_cbar" src=https://user-images.githubusercontent.com/56602673/199347607-b4f3bdab-294f-4edd-ac9e-5d776ce52410.png>
 
+
+<a href="https://zenodo.org/badge/latestdoi/560454088"><img src="https://zenodo.org/badge/560454088.svg" alt="DOI"></a>
+
+
 *Last update*: 3 November 2022
 
 Questions or comments? Contact:
